@@ -21,7 +21,7 @@ class CreateUserProfile(FormView):
 
     form_class = ProfileCreationForm
     template_name = 'profile-create.html'
-	success_url = reverse_lazy('common:index')
+    success_url = reverse_lazy('common:index')
 
     def dispatch(self, request, *args, **kwargs):
         if self.request.user.is_anonymous:
