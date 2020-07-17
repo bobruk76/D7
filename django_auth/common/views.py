@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.views.generic import FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate

@@ -1,8 +1,8 @@
-from common.views import *
+from common.views import index, RegisterView, CreateUserProfile
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.urls import path
-  
+
 app_name = 'common'
 urlpatterns = [
   path('', index, name='index'),
