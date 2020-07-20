@@ -7,6 +7,8 @@ from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from common.models import UserProfile
 
+from allauth.socialaccount.models import SocialAccount
+
 class RegisterView(FormView):
 
     form_class = UserCreationForm
@@ -38,5 +40,8 @@ class CreateUserProfile(FormView):
 def index(request):
     context = {}
     if request.user.is_authenticated:
+        print(request.user)
         context['username'] = request.user.username
+        context['github_url'] = SocialAccount.objects.get(provider='github', user=request.user).extra_data['html_url']
+        
     return render(request, 'index.html', context)

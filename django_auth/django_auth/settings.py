@@ -147,8 +147,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+STATIC_DIR = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 SITE_ID=1
+LOGIN_REDIRECT_URL = reverse_lazy('common:index')
 LOGOUT_REDIRECT_URL = reverse_lazy('common:index')
 ROOT_URLCONF = 'django_auth.urls'
