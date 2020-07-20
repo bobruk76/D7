@@ -43,5 +43,5 @@ def index(request):
         print(request.user)
         context['username'] = request.user.username
         context['github_url'] = SocialAccount.objects.get(provider='github', user=request.user).extra_data['html_url']
-        
+
     return render(request, 'index.html', context)
