@@ -61,7 +61,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'django_auth.urls'
+
 
 TEMPLATES = [
     {
@@ -149,6 +149,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = reverse_lazy('common:index')
-
 SITE_ID=1
+LOGOUT_REDIRECT_URL = reverse_lazy('common:index')
+ROOT_URLCONF = 'django_auth.urls'
