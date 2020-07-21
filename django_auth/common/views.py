@@ -34,14 +34,21 @@ class CreateUserProfile(FormView):
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.user = self.request.user
+        try:
+            instance.extra_data = SocialAccount.objects.get(provider='github', user=self.request.user).extra_data
+        except:
+            instance.extra_data = ''
         instance.save()
         return super(CreateUserProfile, self).form_valid(form)
 
 def index(request):
     context = {}
     if request.user.is_authenticated:
-        print(request.user)
+
         context['username'] = request.user.username
-        context['github_url'] = SocialAccount.objects.get(provider='github', user=request.user).extra_data['html_url']
+        try:
+            context['github_url'] = SocialAccount.objects.get(provider='github', user=request.user).extra_data['html_url']
+        except:
+            context['github_url'] =''
 
     return render(request, 'index.html', context)

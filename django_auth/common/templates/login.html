@@ -1,5 +1,14 @@
 {% extends 'base_tmpl.html' %}
 {% block content %}
+<div class="socialaccount_ballot">
+	<ul class="socialaccount_providers">
+		<li>
+			<a title="GitHub" class="socialaccount_provider github" href="/accounts/github/login/?process=login">GitHub</a>
+		</li>
+	</ul>
+	<div class="login-or">or</div>
+
+  </div>
 <form method="post">
 	<div class="form-group">
 		{% csrf_token %}

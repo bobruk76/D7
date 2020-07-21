@@ -156,6 +156,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 SITE_ID=1
-LOGIN_REDIRECT_URL = reverse_lazy('common:index')
+LOGIN_REDIRECT_URL = reverse_lazy('common:profile-create')
 LOGOUT_REDIRECT_URL = reverse_lazy('common:index')
 ROOT_URLCONF = 'django_auth.urls'

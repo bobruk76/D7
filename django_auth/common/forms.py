@@ -7,3 +7,4 @@ class ProfileCreationForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['age']
+        widgets = {'extra_data': forms.HiddenInput()}
