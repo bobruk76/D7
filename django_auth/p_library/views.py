@@ -13,6 +13,11 @@ class AuthorList(ListView):
     model = Author
     template_name = 'author_list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['username'] = self.request.user.username
+        return context
+
 class AuthorCreate(CreateView):
     model = Author
     form_class = AuthorForm
@@ -78,6 +83,7 @@ def books_authors_create_many(request):
     else:
         author_formset = AuthorFormSet(prefix='authors')
         book_formset = BookFormSet(prefix='books')
+
     return render(
 	    request,
 		'manage_books_authors.html',
@@ -94,11 +100,12 @@ def index(request):
 def books_list(request):
     template = loader.get_template('books.html')
     books = Book.objects.all()
-    biblio_data = {
+    context = {
         "title": "мою библиотеку",
         "books": books,
     }
-    return HttpResponse(template.render(biblio_data, request))
+    context['username'] = request.user.username
+    return HttpResponse(template.render(context, request))
 
 def book_increment(request):
     if request.method == 'POST':

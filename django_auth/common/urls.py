@@ -1,9 +1,10 @@
-from common.views import index, RegisterView, CreateUserProfile
+from common.views import index, profile, RegisterView, CreateUserProfile, ViewUserProfile
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.urls import path
 
 from allauth.account.views import login, logout
+
 
 app_name = 'common'
 urlpatterns = [
@@ -20,5 +21,7 @@ urlpatterns = [
 		success_url=reverse_lazy('common:profile-create')
     ), name='register'),
 
+  path('profile/', profile, name='profile'),
+  path('profile-view/', ViewUserProfile.as_view(), name='profile-view'),
   path('profile-create/', CreateUserProfile.as_view(), name='profile-create'),
 ]

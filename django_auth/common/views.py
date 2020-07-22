@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.views.generic import FormView
+from django.shortcuts import redirect, render
+from django.views.generic import FormView, DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from common.forms import ProfileCreationForm
@@ -8,6 +8,25 @@ from django.urls import reverse_lazy
 from common.models import UserProfile
 
 from allauth.socialaccount.models import SocialAccount
+
+def profile(request):
+    try:
+        user_profile = UserProfile.objects.get(user = request.user)
+        return redirect('/profile-view/')
+    except:
+        return redirect('/profile-create/')
+
+class ViewUserProfile(DetailView):
+    model = UserProfile
+    template_name= 'view_user_profile.html'
+    # success_url = reverse_lazy('p_library:books')
+
+    def get_context_data(self, **kwargs):
+        context = super(ViewUserProfile, self).get_context_data(**kwargs)
+        context['profile'] = UserProfile.objects.filter(user = self.request.user)
+        return context
+
+
 
 class RegisterView(FormView):
 
@@ -38,9 +57,8 @@ class CreateUserProfile(FormView):
             user_profile.age=instance.age
         except:
             user_profile = form.save(commit=False)
-        user_profile.user = self.request.user 
+        user_profile.user = self.request.user
 
-        
 
         try:
             user_profile.extra_data = SocialAccount.objects.get(provider='github', user=self.request.user).extra_data
