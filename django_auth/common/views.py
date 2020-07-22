@@ -6,26 +6,20 @@ from common.forms import ProfileCreationForm
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from common.models import UserProfile
+from django.forms.models import model_to_dict
 
 from allauth.socialaccount.models import SocialAccount
 
 def profile(request):
     try:
-        user_profile = UserProfile.objects.get(user = request.user)
-        return redirect('/profile-view/')
+        user_profile = model_to_dict(UserProfile.objects.get(user = request.user))
+        user_profile['username'] = request.user.username
+        return render(
+            request,
+            'view_user_profile.html',user_profile
+        )
     except:
         return redirect('/profile-create/')
-
-class ViewUserProfile(DetailView):
-    model = UserProfile
-    template_name= 'view_user_profile.html'
-    # success_url = reverse_lazy('p_library:books')
-
-    def get_context_data(self, **kwargs):
-        context = super(ViewUserProfile, self).get_context_data(**kwargs)
-        context['profile'] = UserProfile.objects.filter(user = self.request.user)
-        return context
-
 
 
 class RegisterView(FormView):

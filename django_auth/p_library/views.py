@@ -39,6 +39,11 @@ class ReaderList(ListView):
     model = Reader
     template_name = 'reader_list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['username'] = self.request.user.username
+        return context
+
 class ReaderCreate(CreateView):
     model = Reader
     form_class = ReaderSessionForm
@@ -95,7 +100,8 @@ def books_authors_create_many(request):
 
 def index(request):
     template = loader.get_template('index.html')
-    return HttpResponse(template.render({}, request))
+    context['username'] = request.user.username
+    return HttpResponse(template.render(context, request))
 
 def books_list(request):
     template = loader.get_template('books.html')
@@ -145,7 +151,8 @@ def books_publ(request):
     template = loader.get_template('publishing.html')
 
     publishers = Publisher.objects.all()
-    data = {
+    context = {
         "publishers": publishers,
     }
-    return HttpResponse(template.render(data, request))
+    context['username'] = request.user.username
+    return HttpResponse(template.render(context, request))

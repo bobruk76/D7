@@ -1,4 +1,4 @@
-from common.views import index, profile, RegisterView, CreateUserProfile, ViewUserProfile
+from common.views import index, profile, RegisterView, CreateUserProfile
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.urls import path
@@ -22,6 +22,5 @@ urlpatterns = [
     ), name='register'),
 
   path('profile/', profile, name='profile'),
-  path('profile-view/', ViewUserProfile.as_view(), name='profile-view'),
   path('profile-create/', CreateUserProfile.as_view(), name='profile-create'),
 ]
