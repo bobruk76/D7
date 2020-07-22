@@ -33,11 +33,14 @@ class CreateUserProfile(FormView):
 
     def form_valid(self, form):
         instance = form.save(commit=False)
-        user_profile = UserProfile.objects.get(user = self.request.user)
-        if not user_profile:
-            user_profile = instance
-        else:
+        try:
+            user_profile = UserProfile.objects.get(user = self.request.user)
             user_profile.age=instance.age
+        except:
+            user_profile = form.save(commit=False)
+        user_profile.user = self.request.user 
+
+        
 
         try:
             user_profile.extra_data = SocialAccount.objects.get(provider='github', user=self.request.user).extra_data
