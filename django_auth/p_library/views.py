@@ -1,27 +1,55 @@
 from django.http import HttpResponse
 from django.template import loader
-from p_library.models import Book, Publisher, Author, Reader
 from django.shortcuts import redirect, render
-from django.forms import formset_factory
+
 from django.http.response import HttpResponseRedirect
-
-from p_library.forms import AuthorForm
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.forms import formset_factory
+from p_library.forms import *
+from p_library.models import *
 from django.urls import reverse_lazy
-
-class AuthorEdit(CreateView):
-    model = Author
-    form_class = AuthorForm
-    success_url = reverse_lazy('p_library:author_list')
-    template_name = 'author_edit.html'
 
 class AuthorList(ListView):
     model = Author
     template_name = 'author_list.html'
 
+class AuthorCreate(CreateView):
+    model = Author
+    form_class = AuthorForm
+    success_url = reverse_lazy('p_library:author_list')
+    template_name = '_edit.html'
+
+class AuthorUpdate(UpdateView):
+    model = Author
+    form_class = AuthorForm
+    success_url = reverse_lazy('p_library:author_list')
+    template_name = '_edit.html'
+
+class AuthorDelete(DeleteView):
+    model = Author
+    success_url = reverse_lazy('p_library:author_list')
+    template_name = '_delete.html'
+
 class ReaderList(ListView):
     model = Reader
     template_name = 'reader_list.html'
+
+class ReaderCreate(CreateView):
+    model = Reader
+    form_class = ReaderSessionForm
+    success_url = reverse_lazy('p_library:reader_list')
+    template_name = '_edit.html'
+
+class ReaderDelete(DeleteView):
+    model = Reader
+    success_url = reverse_lazy('p_library:reader_list')
+    template_name = '_delete.html'
+
+class ReaderUpdate(UpdateView):
+    model = Reader
+    form_class = ReaderForm
+    success_url = reverse_lazy('p_library:reader_list')
+    template_name = '_edit.html'
 
 def author_create_many(request):
     AuthorFormSet = formset_factory(AuthorForm, extra=2)  #  Первым делом, получим класс, который будет создавать наши формы. Обратите внимание на параметр `extra`, в данном случае он равен двум, это значит, что на странице с несколькими формами изначально будет появляться 2 формы создания авторов.
@@ -76,35 +104,35 @@ def book_increment(request):
     if request.method == 'POST':
         book_id = request.POST['id']
         if not book_id:
-            return redirect('/index/')
+            return redirect('/books/')
         else:
             book = Book.objects.filter(id=book_id).first()
             if not book:
-                return redirect('/index/')
+                return redirect('/books/')
             book.copy_count += 1
             book.save()
-        return redirect('/index/')
+        return redirect('/books/')
     else:
-        return redirect('/index/')
+        return redirect('/books/')
 
 
 def book_decrement(request):
     if request.method == 'POST':
         book_id = request.POST['id']
         if not book_id:
-            return redirect('/index/')
+            return redirect('/books/')
         else:
             book = Book.objects.filter(id=book_id).first()
             if not book:
-                return redirect('/index/')
+                return redirect('/books/')
             if book.copy_count < 1:
                 book.copy_count = 0
             else:
                 book.copy_count -= 1
             book.save()
-        return redirect('/index/')
+        return redirect('/books/')
     else:
-        return redirect('/index/')
+        return redirect('/books/')
 
 def books_publ(request):
     template = loader.get_template('publishing.html')

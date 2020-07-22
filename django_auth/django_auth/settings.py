@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-from django.urls import reverse_lazy
 import os
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -150,6 +150,7 @@ USE_TZ = True
 
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = (
+    STATIC_DIR,
     os.path.join(BASE_DIR, 'static'),
 )
 STATIC_URL = '/static/'
@@ -157,6 +158,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 SITE_ID=1
-LOGIN_REDIRECT_URL = reverse_lazy('common:profile-create')
+LOGIN_REDIRECT_URL = reverse_lazy('p_library:books')
 LOGOUT_REDIRECT_URL = reverse_lazy('common:index')
 ROOT_URLCONF = 'django_auth.urls'
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

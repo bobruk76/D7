@@ -18,3 +18,8 @@ class ReaderForm(forms.ModelForm):
     class Meta:
         model = Reader
         fields = '__all__'
+
+class ReaderSessionForm(forms.ModelForm):
+    class Meta:
+        model = Reader
+        fields = ["name"]

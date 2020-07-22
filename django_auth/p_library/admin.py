@@ -13,7 +13,8 @@ class BookAdmin(admin.ModelAdmin):
         return obj.author.full_name
 
     list_display = ('title', 'author_full_name',)
-    fields = ('ISBN', 'title', 'description', 'year_release', 'author', 'price')
+    fields = ('ISBN', 'title', 'description', 'year_release', 'author', 'price','cover')
+
 
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
@@ -25,4 +26,12 @@ class PublisherAdmin(admin.ModelAdmin):
 
 @admin.register(BookPublishing)
 class BookPublishingAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Reader)
+class ReadergAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(BookReading)
+class BookReadingAdmin(admin.ModelAdmin):
     pass

@@ -15,18 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from p_library import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('', include('common.urls', namespace='common')),
 
-    path('', include('p_library.urls')),
-    path('', views.index),
-    path('books/', views.books_list),
-    path('publ/', views.books_publ),
-    path('index/book_increment/', views.book_increment),
-    path('index/book_decrement/', views.book_decrement),
+    path('', include('common.urls', namespace='common')),
+    path('', include('p_library.urls', namespace='cop_librarymmon')),
+
 ]
 
